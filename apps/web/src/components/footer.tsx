@@ -26,6 +26,17 @@ export default function Footer() {
               <p className="text-muted-foreground/70">
                 © {currentYear} BiblioGOST. Все права защищены.
               </p>
+              <p className="text-muted-foreground/70">
+                Связь с автором:{" "}
+                <a
+                  href="https://t.me/BotCraftEngineer"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-foreground underline transition-colors"
+                >
+                  @BotCraftEngineer
+                </a>
+              </p>
             </div>
           </div>
 
