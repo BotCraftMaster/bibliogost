@@ -91,8 +91,8 @@ export const metadata: Metadata = {
   },
   verification: {
     // Добавьте коды верификации после регистрации в поисковых системах
-    // google: "your-google-verification-code",
-    // yandex: "your-yandex-verification-code",
+    google: "JdKzwukKmsRefvAzCDU_zkxEjU31H-uEOfxWSBdVxAo",
+    yandex: "fe2717a2e53813ec",
   },
 };
 
