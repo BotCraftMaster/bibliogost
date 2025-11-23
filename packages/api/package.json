@@ -1,0 +1,40 @@
+{
+  "name": "@bibliogost/api",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "tsc",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint --flag unstable_native_nodejs_ts_config",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "@bibliogost/validators": "workspace:*",
+    "@t3-oss/env-core": "^0.13.8",
+    "@trpc/server": "^11.7.2",
+    "axios": "^1.13.2",
+    "citeproc": "^2.4.63",
+    "fast-xml-parser": "^5.3.2",
+    "string-strip-html": "^13.5.0",
+    "superjson": "2.2.5",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@bibliogost/eslint-config": "workspace:*",
+    "@bibliogost/prettier-config": "workspace:*",
+    "@bibliogost/tsconfig": "workspace:*",
+    "eslint": "^9.39.1",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3"
+  },
+  "prettier": "@bibliogost/prettier-config"
+}

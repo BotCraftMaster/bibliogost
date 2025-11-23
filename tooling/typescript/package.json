@@ -1,0 +1,7 @@
+{
+  "name": "@bibliogost/tsconfig",
+  "private": true,
+  "files": [
+    "*.json"
+  ]
+}
