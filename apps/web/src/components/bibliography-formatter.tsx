@@ -16,18 +16,15 @@ export default function BibliographyFormatter() {
   const [gostVersion, setGostVersion] = useState<"2018" | "2008">("2018");
   const [warnings, setWarnings] = useState<string[]>([]);
   const trpc = useTRPC();
-  // tRPC mutation для обработки цитирований
   const processMutation = useMutation(
     trpc.citation.process.mutationOptions({
       onSuccess: (data) => {
-        // Форматируем вывод с нумерацией
         const formatted = data.results
           .map((r, idx) => `${idx + 1}. ${r.formatted}`)
           .join("\n");
 
         setOutput(formatted);
 
-        // Собираем предупреждения
         const allWarnings = data.results.flatMap((r) => r.warnings);
         if (data.totalWarnings > 0) {
           allWarnings.unshift(
@@ -59,7 +56,7 @@ export default function BibliographyFormatter() {
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(output);
+    void navigator.clipboard.writeText(output);
     toast.success("Скопировано в буфер обмена");
   };
 
