@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Card, Label, Textarea } from "@bibliogost/ui";
 import { useMutation } from "@tanstack/react-query";
 import { Copy, Download, Zap } from "lucide-react";
 import { toast } from "sonner";
+
+import { Button, Card, Label, Spinner, Textarea } from "@bibliogost/ui";
 
 import { useTRPC } from "~/trpc/react";
 import WarningsPanel from "./warnings-panel";
@@ -129,9 +130,7 @@ export default function BibliographyFormatter() {
             >
               {processMutation.isPending ? (
                 <>
-                  <span className="mr-2 inline-block h-4 w-4 animate-spin">
-                    ⚙️
-                  </span>
+                  <Spinner />
                   Обработка…
                 </>
               ) : (

@@ -12,5 +12,6 @@ export * from "./input";
 export * from "./label";
 export * from "./separator";
 export * from "./sonner";
+export * from "./spinner";
 export * from "./textarea";
 export * from "./theme";
