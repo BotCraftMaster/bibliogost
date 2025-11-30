@@ -29,12 +29,12 @@ export default function Footer() {
               <p className="text-muted-foreground/70">
                 Связь с автором:{" "}
                 <a
-                  href="https://t.me/BotCraftEngineer"
+                  href="https://github.com/BotCraftMaster/bibliogost"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-foreground underline transition-colors"
                 >
-                  @BotCraftEngineer
+                  GitHub
                 </a>
               </p>
             </div>
