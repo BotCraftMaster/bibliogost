@@ -1,252 +1,125 @@
-# bun-turbo-starter
+# BiblioGOST
 
-A modern, high-performance monorepo starter powered by Bun and Turborepo.
+Веб-сервис для автоматического форматирования библиографических ссылок по стандартам ГОСТ.
 
-## Installation
+## О проекте
 
-> [!NOTE]
->
-> Make sure you have [Bun](https://bun.sh) installed. This project requires Bun v1.0.0 or higher.
+BiblioGOST — это open-source инструмент, который помогает исследователям, студентам и авторам автоматически форматировать библиографические ссылки в соответствии с российскими стандартами ГОСТ Р 7.0.5-2008 и ГОСТ Р 7.0.100-2018.
 
-There are two ways of initializing an app using the `bun-turbo-starter`:
+### Как это работает
 
-### Use as Template
+1. Вы вставляете "грязный" текст с библиографическими ссылками
+2. Система автоматически очищает текст от лишних символов и нумерации
+3. Каждая ссылка обрабатывается через [GROBID](https://github.com/kermitt2/grobid) — систему машинного обучения для извлечения библиографических данных
+4. Извлеченные данные форматируются с помощью [citeproc-js](https://github.com/Juris-M/citeproc-js) в соответствии с выбранным стандартом ГОСТ
+5. Вы получаете корректно отформатированные ссылки
 
-Click the "Use this template" button on GitHub to create a new repository based on this starter.
+### Возможности
 
-### Clone Directly
+- ✅ Поддержка ГОСТ Р 7.0.5-2008 и ГОСТ Р 7.0.100-2018
+- ✅ Автоматическое извлечение метаданных из неструктурированного текста
+- ✅ Обработка различных типов публикаций (статьи, книги, веб-страницы)
+- ✅ Автоматическое добавление даты обращения для URL
+- ✅ Предупреждения о недостающих полях
+- ✅ Пакетная обработка множества ссылок
 
-```bash
-git clone https://github.com/bunworks/bun-turbo-starter.git
-cd bun-turbo-starter
-bun install
-```
+## Установка
 
-## About
+Требования:
 
-A blazingly fast monorepo starter built with Bun and Turborepo. This starter provides a solid foundation for building full-stack applications with modern tooling and best practices.
-
-It uses [Turborepo](https://turborepo.com) and [Bun](https://bun.sh) and contains:
-
-```text
-.github
-  └─ workflows
-        └─ CI with Bun cache setup
-.vscode
-  └─ Recommended extensions and settings for VSCode users
-apps
-  └─ nextjs
-      ├─ Next.js 16
-      ├─ React 19
-      ├─ Tailwind CSS v4
-      └─ E2E Typesafe API Server & Client
-packages
-  ├─ api
-  │   └─ tRPC v11 router definition
-  ├─ auth
-  │   └─ Authentication using better-auth
-  ├─ db
-  │   └─ Typesafe db calls using Drizzle & Supabase
-  ├─ ui
-  │   └─ UI package for the webapp using shadcn-ui
-  └─ validators
-      └─ Shared validation schemas
-tooling
-  ├─ eslint
-  │   └─ Shared, fine-grained ESLint presets
-  ├─ prettier
-  │   └─ Shared Prettier configuration
-  ├─ tailwind
-  │   └─ Shared Tailwind theme and configuration
-  └─ typescript
-      └─ Shared tsconfig you can extend from
-```
-
-## Key Features
-
-- **⚡ Bun Runtime**: Lightning-fast package management, testing, and bundling
-- **🏗️ Turborepo**: Efficient monorepo management with smart caching
-- **🔒 Type Safety**: End-to-end type safety with TypeScript and tRPC
-- **🎨 Modern UI**: Tailwind CSS v4 and shadcn-ui components
-- **🔐 Authentication**: Secure auth with better-auth
-- **💾 Database**: Type-safe database queries with Drizzle ORM
-- **📦 Shared Packages**: Reusable code across your monorepo
-
-> In this template, we use `@bibliogost` as a placeholder for package names. Replace it with your own organization or project name using find-and-replace to change all instances of `@bibliogost` to something like `@my-company` or `@project-name`.
-
-## Quick Start
-
-> **Note**
-> The [db](./packages/db) package is preconfigured to use Supabase and is **edge-bound** with the [Vercel Postgres](https://github.com/vercel/storage/tree/main/packages/postgres) driver. If you're using something else, make the necessary modifications to the [schema](./packages/db/src/schema.ts) as well as the [client](./packages/db/src/index.ts) and the [drizzle config](./packages/db/drizzle.config.ts). If you want to switch to a non-edge database driver, remove `export const runtime = "edge";` from all pages and API routes.
-
-To get it running, follow the steps below:
-
-### 1. Setup dependencies
+- [Bun](https://bun.sh) v1.3.3 или выше
 
 ```bash
-# Install dependencies
+# Клонировать репозиторий
+git clone https://github.com/BotCraftMaster/bibliogost
+cd bibliogost
+
+# Установить зависимости
 bun install
 
-# Configure environment variables
-# There is an `.env.example` in the root directory you can use for reference
+# Настроить переменные окружения (опционально)
 cp .env.example .env
 
-# Push the Drizzle schema to the database
-bun db:push
-```
-
-#### Environment Variables
-
-This project uses `@t3-oss/env-core` for type-safe environment variables. The following variables are available:
-
-**Optional:**
-
-- `GROBID_URL` - GROBID server URL for citation parsing (default: `https://kermitt2-grobid.hf.space`)
-  - Demo server with DL models: `https://kermitt2-grobid.hf.space` (more accurate, slower on CPU)
-  - Demo server with CRF only: `https://kermitt2-grobid-crf.hf.space` (faster, less accurate)
-  - For production: deploy your own GROBID server
-
-Environment variables are validated at build time, ensuring type safety across the application.
-
-> **Note**: Database support has been removed. This is a stateless citation formatting service.
-
-### 2. Generate Better Auth Schema
-
-This project uses [Better Auth](https://www.better-auth.com) for authentication. The auth schema needs to be generated using the Better Auth CLI before you can use the authentication features.
-
-```bash
-# Generate the Better Auth schema
-bun --filter @bibliogost/auth generate
-```
-
-This command runs the Better Auth CLI with the following configuration:
-
-- **Config file**: `packages/auth/script/auth-cli.ts` - A CLI-only configuration file (isolated from src to prevent imports)
-- **Output**: `packages/db/src/auth-schema.ts` - Generated Drizzle schema for authentication tables
-
-The generation process:
-
-1. Reads the Better Auth configuration from `packages/auth/script/auth-cli.ts`
-2. Generates the appropriate database schema based on your auth setup
-3. Outputs a Drizzle-compatible schema file to the `@bibliogost/db` package
-
-> **Note**: The `auth-cli.ts` file is placed in the `script/` directory (instead of `src/`) to prevent accidental imports from other parts of the codebase. This file is exclusively for CLI schema generation and should **not** be used directly in your application. For runtime authentication, use the configuration from `packages/auth/src/index.ts`.
-
-For more information about the Better Auth CLI, see the [official documentation](https://www.better-auth.com/docs/concepts/cli#generate).
-
-### 3. Start the development server
-
-```bash
+# Запустить dev-сервер
 bun dev
 ```
 
-This will start the Next.js development server. Open [http://localhost:3000](http://localhost:3000) to see your app.
+Приложение будет доступно по адресу [http://localhost:3000](http://localhost:3000)
 
-### 4. When it's time to add a new UI component
+## Переменные окружения
 
-Run the `ui-add` script to add a new UI component using the interactive `shadcn/ui` CLI:
+- `GROBID_URL` — URL сервера GROBID (по умолчанию: `https://kermitt2-grobid.hf.space`)
+  - Demo-сервер с DL моделями: `https://kermitt2-grobid.hf.space` (точнее, медленнее)
+  - Demo-сервер с CRF: `https://kermitt2-grobid-crf.hf.space` (быстрее, менее точный)
+  - Для production рекомендуется развернуть собственный GROBID сервер
 
-```bash
-bun ui-add
-```
+## Деплой
 
-When the component(s) has been installed, you should be good to go and start using it in your app.
+### Vercel
 
-### 5. When it's time to add a new package
+1. Создайте новый проект на [Vercel](https://vercel.com)
+2. Выберите папку `apps/web` как корневую директорию
+3. (Опционально) Добавьте переменную окружения `GROBID_URL`
+4. Готово!
 
-To add a new package, simply run `bun turbo gen init` in the monorepo root. This will prompt you for a package name as well as if you want to install any dependencies to the new package (of course you can also do this yourself later).
-
-The generator sets up the `package.json`, `tsconfig.json` and a `index.ts`, as well as configures all the necessary configurations for tooling around your package such as formatting, linting and typechecking. When the package is created, you're ready to go build out the package.
-
-## FAQ
-
-### Why Bun?
-
-Bun is a modern JavaScript runtime that's significantly faster than Node.js for many operations. It includes a built-in package manager, test runner, and bundler, making it an all-in-one solution for JavaScript development. With Bun, you get:
-
-- Faster package installation
-- Built-in TypeScript support
-- Native test runner
-- Better performance for development tasks
-
-### Does this pattern leak backend code to my client applications?
-
-No, it does not. The `api` package should only be a production dependency in the Next.js application where it's served. Any other apps you may add in the future should only add the `api` package as a dev dependency. This lets you have full type safety in your client applications, while keeping your backend code safe.
-
-If you need to share runtime code between the client and server, such as input validation schemas, you can create a separate `shared` package for this and import it on both sides.
-
-## Deployment
-
-### Next.js
-
-#### Deploy to Vercel
-
-Let's deploy the Next.js application to [Vercel](https://vercel.com). If you've never deployed a Turborepo app there, don't worry, the steps are quite straightforward. You can also read the [official Turborepo guide](https://vercel.com/docs/concepts/monorepos/turborepo) on deploying to Vercel.
-
-1. Create a new project on Vercel, select the `apps/web` folder as the root directory. Vercel's zero-config system should handle all configurations for you.
-
-2. (Optional) Add your `GROBID_URL` environment variable if you want to use a custom GROBID server.
-
-3. Done! Your app should successfully deploy.
-
-## Scripts
-
-Here are the main scripts you can run from the root of the monorepo:
-
-```bash
-# Start all apps in development mode
-bun dev
-
-# Build all apps and packages
-bun build
-
-# Run linting across the monorepo
-bun lint
-
-# Format code with Prettier
-bun format
-
-# Type check all packages
-bun typecheck
-
-# Push database schema changes
-bun db:push
-
-# Generate database migrations
-bun db:generate
-
-# Open Drizzle Studio
-bun db:studio
-
-# Add a new UI component
-bun ui-add
-
-# Clean all node_modules and build artifacts
-bun clean
-```
-
-## Tech Stack
+## Технологии
 
 - **Runtime**: [Bun](https://bun.sh)
-- **Monorepo**: [Turborepo](https://turborepo.org)
-- **Framework**: [Next.js 15](https://nextjs.org)
-- **Styling**: [Tailwind CSS v4](https://tailwindcss.com)
-- **UI Components**: [shadcn/ui](https://ui.shadcn.com)
+- **Framework**: [Next.js 16](https://nextjs.org) + [React 19](https://react.dev)
 - **API**: [tRPC v11](https://trpc.io)
-- **Database**: [Drizzle ORM](https://orm.drizzle.team) + [Supabase](https://supabase.com)
-- **Authentication**: [Better Auth](https://better-auth.com)
-- **Validation**: [Zod](https://zod.dev)
-- **Linting**: [ESLint](https://eslint.org)
-- **Formatting**: [Prettier](https://prettier.io)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com)
+- **UI**: [shadcn/ui](https://ui.shadcn.com)
+- **Monorepo**: [Turborepo](https://turborepo.org)
+- **Парсинг библиографии**: [GROBID](https://github.com/kermitt2/grobid)
+- **Форматирование**: [citeproc-js](https://github.com/Juris-M/citeproc-js)
 
-## Contributing
+## Структура проекта
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+```text
+apps/
+  └─ web/              # Next.js веб-приложение
+packages/
+  ├─ api/              # tRPC API с логикой обработки цитирований
+  ├─ ui/               # UI компоненты (shadcn/ui)
+  └─ validators/       # Zod схемы валидации
+tooling/
+  ├─ eslint/           # Конфигурация ESLint
+  ├─ prettier/         # Конфигурация Prettier
+  ├─ tailwind/         # Конфигурация Tailwind
+  └─ typescript/       # Общие tsconfig
+```
 
-## License
+## Разработка
+
+```bash
+# Запустить dev-сервер
+bun dev
+
+# Сборка
+bun build
+
+# Линтинг
+bun lint
+
+# Форматирование
+bun format
+
+# Проверка типов
+bun typecheck
+```
+
+## Вклад в проект
+
+Мы приветствуем любой вклад! Не стесняйтесь открывать Issues и Pull Requests.
+
+## Лицензия
 
 MIT
 
-## Acknowledgments
+## Благодарности
 
-This starter is inspired by [bun-turbo-starter](https://github.com/bunworks/bun-turbo-starter) and optimized for the Bun ecosystem.
+Проект использует:
+
+- [GROBID](https://github.com/kermitt2/grobid) для извлечения библиографических данных
+- [citeproc-js](https://github.com/Juris-M/citeproc-js) для форматирования цитирований
+- CSL стили ГОСТ из [citation-style-language/styles](https://github.com/citation-style-language/styles)
